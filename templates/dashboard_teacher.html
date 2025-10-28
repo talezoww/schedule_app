@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block title %}Панель преподавателя{% endblock %}
+
+{% block content %}
+<div class="container-fluid p-4">
+    <h1 class="mb-4"><i class="bi bi-house-door"></i> Добро пожаловать, {{ user.get_full_name }}!</h1>
+    
+    <div class="row">
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-calendar-day text-primary"></i> Моё расписание</h5>
+                    <p class="card-text">Просмотр расписания занятий на день</p>
+                    <a href="{% url 'schedules:schedule_day' %}" class="btn btn-primary">Открыть</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-calendar-week text-success"></i> Расписание на неделю</h5>
+                    <p class="card-text">Просмотр расписания на текущую неделю</p>
+                    <a href="{% url 'schedules:schedule_week' %}" class="btn btn-success">Открыть</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-people text-info"></i> Мои группы</h5>
+                    <p class="card-text">Список групп и студентов</p>
+                    <a href="{% url 'groups:my_groups' %}" class="btn btn-info">Открыть</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-book text-warning"></i> Предметы</h5>
+                    <p class="card-text">Список предметов</p>
+                    <a href="{% url 'groups:subjects_list' %}" class="btn btn-warning">Открыть</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-clock text-danger"></i> Расписание звонков</h5>
+                    <p class="card-text">Время начала и окончания пар</p>
+                    <a href="{% url 'schedules:lesson_times' %}" class="btn btn-danger">Открыть</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {% if user.teacher_profile %}
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="bi bi-info-circle"></i> Информация о преподавателе</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>ФИО:</strong> {{ user.get_full_name }}</p>
+                            <p><strong>Должность:</strong> {{ user.teacher_profile.position }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Кафедра:</strong> {{ user.teacher_profile.department }}</p>
+                            <p><strong>Кабинет:</strong> {{ user.teacher_profile.office }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

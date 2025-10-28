@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block title %}Группа {{ group.name }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid p-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1><i class="bi bi-people"></i> Группа {{ group.name }}</h1>
+        <a href="{% url 'groups:groups_list' %}" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Назад к списку
+        </a>
+    </div>
+    
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">Информация о группе</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <p><strong>Название:</strong> {{ group.name }}</p>
+                        </div>
+                        <div class="col-md-3">
+                            <p><strong>Курс:</strong> {{ group.course }}</p>
+                        </div>
+                        <div class="col-md-3">
+                            <p><strong>Факультет:</strong> {{ group.faculty }}</p>
+                        </div>
+                        <div class="col-md-3">
+                            <p><strong>Староста:</strong> 
+                                {% if group.head_student %}
+                                {{ group.head_student.user.get_full_name }}
+                                {% else %}
+                                <span class="text-muted">Не назначен</span>
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <h5 class="mb-0">Список студентов ({{ students.count }})</h5>
+                </div>
+                <div class="card-body">
+                    {% if students %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>#</th>
+                                    <th>ФИО</th>
+                                    <th>Номер студенческого</th>
+                                    <th>Email</th>
+                                    <th>Телефон</th>
+                                    <th>Год поступления</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for student in students %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>
+                                        {% if student.user.photo %}
+                                        <img src="{{ student.user.photo.url }}" alt="Avatar" class="rounded-circle" style="width: 30px; height: 30px; object-fit: cover;">
+                                        {% endif %}
+                                        {{ student.user.get_full_name }}
+                                        {% if student == group.head_student %}
+                                        <span class="badge bg-warning">Староста</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ student.student_id }}</td>
+                                    <td>{{ student.user.email }}</td>
+                                    <td>{{ student.user.phone|default:"-" }}</td>
+                                    <td>{{ student.enrollment_year }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle"></i> В этой группе пока нет студентов.
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

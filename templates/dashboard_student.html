@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block title %}Панель студента{% endblock %}
+
+{% block content %}
+<div class="container-fluid p-4">
+    <h1 class="mb-4"><i class="bi bi-house-door"></i> Добро пожаловать, {{ user.get_full_name }}!</h1>
+    
+    <div class="row">
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-calendar-day text-primary"></i> Расписание на день</h5>
+                    <p class="card-text">Просмотр расписания занятий на сегодня</p>
+                    <a href="{% url 'schedules:schedule_day' %}" class="btn btn-primary">Открыть</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-calendar-week text-success"></i> Расписание на неделю</h5>
+                    <p class="card-text">Просмотр расписания на текущую неделю</p>
+                    <a href="{% url 'schedules:schedule_week' %}" class="btn btn-success">Открыть</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-calendar-month text-info"></i> Расписание на месяц</h5>
+                    <p class="card-text">Просмотр расписания на текущий месяц</p>
+                    <a href="{% url 'schedules:schedule_month' %}" class="btn btn-info">Открыть</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-journal-text text-warning"></i> Мои заметки</h5>
+                    <p class="card-text">Управление заметками к занятиям</p>
+                    <a href="{% url 'schedules:notes' %}" class="btn btn-warning">Открыть</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-person-lines-fill text-secondary"></i> Преподаватели</h5>
+                    <p class="card-text">Список преподавателей и контакты</p>
+                    <a href="{% url 'groups:teachers_list' %}" class="btn btn-secondary">Открыть</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-clock text-danger"></i> Расписание звонков</h5>
+                    <p class="card-text">Время начала и окончания пар</p>
+                    <a href="{% url 'schedules:lesson_times' %}" class="btn btn-danger">Открыть</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {% if user.student_profile %}
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="bi bi-info-circle"></i> Информация о студенте</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>ФИО:</strong> {{ user.get_full_name }}</p>
+                            <p><strong>Группа:</strong> {{ user.student_profile.group.name }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Номер студенческого:</strong> {{ user.student_profile.student_id }}</p>
+                            <p><strong>Год поступления:</strong> {{ user.student_profile.enrollment_year }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

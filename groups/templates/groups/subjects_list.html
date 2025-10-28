@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Список предметов{% endblock %}
+
+{% block content %}
+<div class="container-fluid p-4">
+    <h1 class="mb-4"><i class="bi bi-book"></i> Список предметов</h1>
+    
+    {% if subjects %}
+    <div class="row">
+        {% for subject in subjects %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-warning text-white">
+                    <h5 class="mb-0">{{ subject.name }}</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Код:</strong> {{ subject.code }}</p>
+                    <p><strong>Преподаватель:</strong> 
+                        {% if subject.teacher %}
+                        {{ subject.teacher.user.get_full_name }}
+                        {% else %}
+                        <span class="text-muted">Не назначен</span>
+                        {% endif %}
+                    </p>
+                    <p><strong>Количество часов:</strong> {{ subject.hours }}</p>
+                    {% if subject.description %}
+                    <p><strong>Описание:</strong><br>{{ subject.description|truncatewords:20 }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="alert alert-info">
+        <i class="bi bi-info-circle"></i> Предметов пока нет.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

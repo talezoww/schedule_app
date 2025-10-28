@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Список групп{% endblock %}
+
+{% block content %}
+<div class="container-fluid p-4">
+    <h1 class="mb-4"><i class="bi bi-people"></i> Список групп</h1>
+    
+    {% if groups %}
+    <div class="row">
+        {% for group in groups %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">{{ group.name }}</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Курс:</strong> {{ group.course }}</p>
+                    <p><strong>Факультет:</strong> {{ group.faculty }}</p>
+                    <p><strong>Староста:</strong> 
+                        {% if group.head_student %}
+                        {{ group.head_student.user.get_full_name }}
+                        {% else %}
+                        <span class="text-muted">Не назначен</span>
+                        {% endif %}
+                    </p>
+                    <p><strong>Студентов:</strong> {{ group.get_students_count }}</p>
+                </div>
+                <div class="card-footer">
+                    <a href="{% url 'groups:group_detail' group.id %}" class="btn btn-sm btn-primary">
+                        <i class="bi bi-eye"></i> Подробнее
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="alert alert-info">
+        <i class="bi bi-info-circle"></i> Групп пока нет.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

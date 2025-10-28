@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block title %}Расписание на неделю{% endblock %}
+
+{% block content %}
+<div class="container-fluid p-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1><i class="bi bi-calendar-week"></i> Расписание на неделю</h1>
+        <div>
+            <a href="?date={{ prev_week|date:'Y-m-d' }}" class="btn btn-outline-secondary">
+                <i class="bi bi-chevron-left"></i> Предыдущая неделя
+            </a>
+            <span class="mx-3"><strong>{{ start_of_week|date:'d.m' }} - {{ end_of_week|date:'d.m.Y' }}</strong></span>
+            <a href="?date={{ next_week|date:'Y-m-d' }}" class="btn btn-outline-secondary">
+                Следующая неделя <i class="bi bi-chevron-right"></i>
+            </a>
+        </div>
+    </div>
+    
+    {% if schedule_by_day %}
+    <div class="row">
+        {% for date, schedules in schedule_by_day.items %}
+        <div class="col-12 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">{{ date|date:'l, d F Y' }}</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Время</th>
+                                    <th>Предмет</th>
+                                    <th>Тип</th>
+                                    {% if user.is_student %}
+                                    <th>Преподаватель</th>
+                                    {% elif user.is_teacher %}
+                                    <th>Группа</th>
+                                    {% else %}
+                                    <th>Группа</th>
+                                    <th>Преподаватель</th>
+                                    {% endif %}
+                                    <th>Аудитория</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for schedule in schedules %}
+                                <tr>
+                                    <td>{{ schedule.lesson_time.start_time|time:'H:i' }} - {{ schedule.lesson_time.end_time|time:'H:i' }}</td>
+                                    <td><strong>{{ schedule.subject.name }}</strong></td>
+                                    <td><span class="badge bg-info">{{ schedule.get_lesson_type_display }}</span></td>
+                                    {% if user.is_student %}
+                                    <td>{{ schedule.teacher.user.get_full_name }}</td>
+                                    {% elif user.is_teacher %}
+                                    <td>{{ schedule.group.name }}</td>
+                                    {% else %}
+                                    <td>{{ schedule.group.name }}</td>
+                                    <td>{{ schedule.teacher.user.get_full_name }}</td>
+                                    {% endif %}
+                                    <td><span class="badge bg-secondary">{{ schedule.classroom }}</span></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="alert alert-info">
+        <i class="bi bi-info-circle"></i> На эту неделю занятий не запланировано.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

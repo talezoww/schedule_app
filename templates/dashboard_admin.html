@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block title %}Панель администратора{% endblock %}
+
+{% block content %}
+<div class="container-fluid p-4">
+    <h1 class="mb-4"><i class="bi bi-shield-check"></i> Панель администратора</h1>
+    
+    <div class="row">
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-calendar text-primary"></i> Расписание</h5>
+                    <p class="card-text">Просмотр и управление расписанием</p>
+                    <a href="{% url 'schedules:schedule_day' %}" class="btn btn-primary">Открыть</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-people text-success"></i> Группы</h5>
+                    <p class="card-text">Управление группами студентов</p>
+                    <a href="{% url 'groups:groups_list' %}" class="btn btn-success">Открыть</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-person-lines-fill text-info"></i> Преподаватели</h5>
+                    <p class="card-text">Управление преподавателями</p>
+                    <a href="{% url 'groups:teachers_list' %}" class="btn btn-info">Открыть</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-book text-warning"></i> Предметы</h5>
+                    <p class="card-text">Управление учебными предметами</p>
+                    <a href="{% url 'groups:subjects_list' %}" class="btn btn-warning">Открыть</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-file-earmark-text text-secondary"></i> Запросы на изменение</h5>
+                    <p class="card-text">Одобрение/отклонение запросов</p>
+                    <a href="{% url 'schedules:change_requests' %}" class="btn btn-secondary">Открыть</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-clock text-danger"></i> Расписание звонков</h5>
+                    <p class="card-text">Управление временем занятий</p>
+                    <a href="{% url 'schedules:lesson_times' %}" class="btn btn-danger">Открыть</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm border-primary">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-gear text-primary"></i> Django Admin</h5>
+                    <p class="card-text">Полный доступ к панели администратора</p>
+                    <a href="/admin/" class="btn btn-outline-primary" target="_blank">Открыть</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="alert alert-info">
+                <h5><i class="bi bi-info-circle"></i> Информация</h5>
+                <p class="mb-0">Вы вошли как администратор. У вас есть полный доступ ко всем функциям системы.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Мои группы{% endblock %}
+
+{% block content %}
+<div class="container-fluid p-4">
+    <h1 class="mb-4"><i class="bi bi-people"></i> Мои группы</h1>
+    
+    {% if assignments %}
+    <div class="row">
+        {% for assignment in assignments %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">{{ assignment.group.name }}</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Предмет:</strong> {{ assignment.subject.name }}</p>
+                    <p><strong>Семестр:</strong> {{ assignment.semester }}</p>
+                    <p><strong>Учебный год:</strong> {{ assignment.year }}</p>
+                    <p><strong>Студентов:</strong> {{ assignment.group.get_students_count }}</p>
+                </div>
+                <div class="card-footer">
+                    <a href="{% url 'groups:group_detail' assignment.group.id %}" class="btn btn-sm btn-primary">
+                        <i class="bi bi-eye"></i> Просмотр группы
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="alert alert-info">
+        <i class="bi bi-info-circle"></i> У вас пока нет назначенных групп.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

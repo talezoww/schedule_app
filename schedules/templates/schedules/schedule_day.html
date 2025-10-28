@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block title %}Расписание на день{% endblock %}
+
+{% block content %}
+<div class="container-fluid p-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1><i class="bi bi-calendar-day"></i> Расписание на день</h1>
+        <div>
+            <a href="?date={{ prev_date|date:'Y-m-d' }}" class="btn btn-outline-secondary">
+                <i class="bi bi-chevron-left"></i> Предыдущий день
+            </a>
+            <span class="mx-3"><strong>{{ selected_date|date:'d.m.Y' }} ({{ selected_date|date:'l' }})</strong></span>
+            <a href="?date={{ next_date|date:'Y-m-d' }}" class="btn btn-outline-secondary">
+                Следующий день <i class="bi bi-chevron-right"></i>
+            </a>
+        </div>
+    </div>
+    
+    {% if schedules %}
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Время</th>
+                            <th>Предмет</th>
+                            <th>Тип</th>
+                            {% if user.is_student %}
+                            <th>Преподаватель</th>
+                            {% elif user.is_teacher %}
+                            <th>Группа</th>
+                            {% else %}
+                            <th>Группа</th>
+                            <th>Преподаватель</th>
+                            {% endif %}
+                            <th>Аудитория</th>
+                            {% if user.is_student %}
+                            <th>Действия</th>
+                            {% endif %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for schedule in schedules %}
+                        <tr>
+                            <td>
+                                <strong>{{ schedule.lesson_time.lesson_number }} пара</strong><br>
+                                <small class="text-muted">{{ schedule.lesson_time.start_time|time:'H:i' }} - {{ schedule.lesson_time.end_time|time:'H:i' }}</small>
+                            </td>
+                            <td><strong>{{ schedule.subject.name }}</strong></td>
+                            <td><span class="badge bg-info">{{ schedule.get_lesson_type_display }}</span></td>
+                            {% if user.is_student %}
+                            <td>{{ schedule.teacher.user.get_full_name }}</td>
+                            {% elif user.is_teacher %}
+                            <td>{{ schedule.group.name }}</td>
+                            {% else %}
+                            <td>{{ schedule.group.name }}</td>
+                            <td>{{ schedule.teacher.user.get_full_name }}</td>
+                            {% endif %}
+                            <td><span class="badge bg-secondary">{{ schedule.classroom }}</span></td>
+                            {% if user.is_student %}
+                            <td>
+                                <a href="{% url 'schedules:add_note' schedule.id %}" class="btn btn-sm btn-outline-primary" title="Добавить заметку">
+                                    <i class="bi bi-journal-plus"></i>
+                                </a>
+                            </td>
+                            {% endif %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="alert alert-info">
+        <i class="bi bi-info-circle"></i> На этот день занятий не запланировано.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

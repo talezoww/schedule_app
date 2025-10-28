@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Мои заметки{% endblock %}
+
+{% block content %}
+<div class="container-fluid p-4">
+    <h1 class="mb-4"><i class="bi bi-journal-text"></i> Мои заметки</h1>
+    
+    {% if notes %}
+    <div class="row">
+        {% for note in notes %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-warning text-white">
+                    <h6 class="mb-0">
+                        <i class="bi bi-book"></i> {{ note.schedule.subject.name }}
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{ note.content }}</p>
+                    <hr>
+                    <small class="text-muted">
+                        <i class="bi bi-calendar"></i> {{ note.schedule.date|date:'d.m.Y' }}<br>
+                        <i class="bi bi-clock"></i> {{ note.schedule.lesson_time.start_time|time:'H:i' }}<br>
+                        <i class="bi bi-person"></i> {{ note.schedule.teacher.user.get_full_name }}<br>
+                        <i class="bi bi-door-open"></i> Аудитория {{ note.schedule.classroom }}
+                    </small>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Создано: {{ note.created_at|date:'d.m.Y H:i' }}</small>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="alert alert-info">
+        <i class="bi bi-info-circle"></i> У вас пока нет заметок. Добавьте заметку к занятию в расписании на день.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

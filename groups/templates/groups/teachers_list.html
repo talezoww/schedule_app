@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Список преподавателей{% endblock %}
+
+{% block content %}
+<div class="container-fluid p-4">
+    <h1 class="mb-4"><i class="bi bi-person-lines-fill"></i> Список преподавателей</h1>
+    
+    {% if teachers %}
+    <div class="row">
+        {% for teacher in teachers %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    {% if teacher.user.photo %}
+                    <img src="{{ teacher.user.photo.url }}" alt="Avatar" class="img-fluid rounded-circle mb-3" style="width: 100px; height: 100px; object-fit: cover;">
+                    {% else %}
+                    <div class="mb-3">
+                        <i class="bi bi-person-circle" style="font-size: 100px; color: #6c757d;"></i>
+                    </div>
+                    {% endif %}
+                    
+                    <h5 class="card-title">{{ teacher.user.get_full_name }}</h5>
+                    <p class="text-muted">{{ teacher.position }}</p>
+                    
+                    <hr>
+                    
+                    <div class="text-start">
+                        <p class="mb-2"><i class="bi bi-building"></i> <strong>Кафедра:</strong><br>{{ teacher.department }}</p>
+                        
+                        {% if teacher.academic_degree %}
+                        <p class="mb-2"><i class="bi bi-award"></i> <strong>Учёная степень:</strong><br>{{ teacher.academic_degree }}</p>
+                        {% endif %}
+                        
+                        {% if teacher.office %}
+                        <p class="mb-2"><i class="bi bi-door-open"></i> <strong>Кабинет:</strong> {{ teacher.office }}</p>
+                        {% endif %}
+                        
+                        <p class="mb-2"><i class="bi bi-envelope"></i> <strong>Email:</strong><br>{{ teacher.user.email }}</p>
+                        
+                        {% if teacher.user.phone %}
+                        <p class="mb-0"><i class="bi bi-telephone"></i> <strong>Телефон:</strong><br>{{ teacher.user.phone }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="alert alert-info">
+        <i class="bi bi-info-circle"></i> Преподавателей пока нет.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
