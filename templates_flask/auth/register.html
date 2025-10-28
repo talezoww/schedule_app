@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block title %}Регистрация{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-4">
+    <div class="col-md-7">
+        <div class="card">
+            <div class="card-header text-center">
+                <h4><i class="bi bi-person-plus"></i> Регистрация</h4>
+            </div>
+            <div class="card-body p-4">
+                <form method="POST" id="registerForm">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="first_name" class="form-label">Имя *</label>
+                            <input type="text" class="form-control" id="first_name" name="first_name" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="last_name" class="form-label">Фамилия *</label>
+                            <input type="text" class="form-control" id="last_name" name="last_name" required>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Имя пользователя *</label>
+                        <input type="text" class="form-control" id="username" name="username" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email *</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Телефон</label>
+                        <input type="tel" class="form-control" id="phone" name="phone">
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="password" class="form-label">Пароль *</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="confirm_password" class="form-label">Подтвердите пароль *</label>
+                            <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="role" class="form-label">Роль *</label>
+                        <select class="form-select" id="role" name="role" required>
+                            <option value="">Выберите роль...</option>
+                            <option value="student">Студент</option>
+                            <option value="teacher">Преподаватель</option>
+                        </select>
+                    </div>
+                    
+                    <div id="studentFields" style="display: none;">
+                        <div class="mb-3">
+                            <label for="group_id" class="form-label">Группа</label>
+                            <select class="form-select" id="group_id" name="group_id">
+                                <option value="">Выберите группу...</option>
+                                {% for group in groups %}
+                                <option value="{{ group.id }}">{{ group.name }} ({{ group.course }} курс)</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="course" class="form-label">Курс</label>
+                            <select class="form-select" id="course" name="course">
+                                <option value="">Выберите курс...</option>
+                                <option value="1">1 курс</option>
+                                <option value="2">2 курс</option>
+                                <option value="3">3 курс</option>
+                                <option value="4">4 курс</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div id="teacherFields" style="display: none;">
+                        <div class="mb-3">
+                            <label for="department" class="form-label">Кафедра</label>
+                            <input type="text" class="form-control" id="department" name="department">
+                        </div>
+                        <div class="mb-3">
+                            <label for="position" class="form-label">Должность</label>
+                            <input type="text" class="form-control" id="position" name="position">
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary w-100">Зарегистрироваться</button>
+                </form>
+                <hr>
+                <div class="text-center">
+                    <p class="mb-0">Уже есть аккаунт? <a href="{{ url_for('auth.login') }}">Войти</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('role').addEventListener('change', function() {
+    const studentFields = document.getElementById('studentFields');
+    const teacherFields = document.getElementById('teacherFields');
+    
+    if (this.value === 'student') {
+        studentFields.style.display = 'block';
+        teacherFields.style.display = 'none';
+    } else if (this.value === 'teacher') {
+        studentFields.style.display = 'none';
+        teacherFields.style.display = 'block';
+    } else {
+        studentFields.style.display = 'none';
+        teacherFields.style.display = 'none';
+    }
+});
+</script>
+{% endblock %}

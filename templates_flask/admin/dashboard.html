@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}Панель администратора{% endblock %}
+
+{% block content %}
+<h2 class="mb-4"><i class="bi bi-speedometer2"></i> Панель администратора</h2>
+
+<div class="row">
+    <div class="col-md-3 mb-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="bi bi-person-check display-4 text-warning"></i>
+                <h3 class="mt-3">{{ pending_count }}</h3>
+                <p class="text-muted">Ожидают подтверждения</p>
+                <a href="{{ url_for('admin.pending_users') }}" class="btn btn-sm btn-warning">Просмотреть</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="bi bi-people display-4 text-primary"></i>
+                <h3 class="mt-3">{{ users_count }}</h3>
+                <p class="text-muted">Пользователей</p>
+                <a href="{{ url_for('admin.users') }}" class="btn btn-sm btn-primary">Управление</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="bi bi-collection display-4 text-success"></i>
+                <h3 class="mt-3">{{ groups_count }}</h3>
+                <p class="text-muted">Групп</p>
+                <a href="{{ url_for('admin.groups') }}" class="btn btn-sm btn-success">Управление</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="bi bi-book display-4 text-info"></i>
+                <h3 class="mt-3">{{ subjects_count }}</h3>
+                <p class="text-muted">Предметов</p>
+                <a href="{{ url_for('admin.subjects') }}" class="btn btn-sm btn-info">Управление</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="mb-0"><i class="bi bi-info-circle"></i> Быстрые действия</h5>
+    </div>
+    <div class="card-body">
+        <div class="list-group">
+            <a href="{{ url_for('admin.pending_users') }}" class="list-group-item list-group-item-action">
+                <i class="bi bi-person-check"></i> Подтвердить регистрации пользователей
+            </a>
+            <a href="{{ url_for('admin.add_group') }}" class="list-group-item list-group-item-action">
+                <i class="bi bi-plus-circle"></i> Добавить новую группу
+            </a>
+            <a href="{{ url_for('admin.add_subject') }}" class="list-group-item list-group-item-action">
+                <i class="bi bi-plus-circle"></i> Добавить новый предмет
+            </a>
+            <a href="{{ url_for('admin.lesson_times') }}" class="list-group-item list-group-item-action">
+                <i class="bi bi-clock"></i> Настроить расписание звонков
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
